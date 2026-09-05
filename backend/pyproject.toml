@@ -1,0 +1,21 @@
+[project]
+name = "my-personal-chef"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Olya", email = "ol2ksenova@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "langchain[google-genai]>=1.4.0",
+    "langgraph>=1.2.11",
+    "python-dotenv>=1.2.3",
+    "tavily-python>=0.8.1",
+]
+
+[project.scripts]
+my-personal-chef = "my_personal_chef:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
