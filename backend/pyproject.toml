@@ -7,10 +7,13 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "fastapi>=0.141.1",
     "langchain[google-genai]>=1.4.0",
     "langgraph>=1.2.11",
     "python-dotenv>=1.2.3",
+    "python-multipart>=0.0.32",
     "tavily-python>=0.8.1",
+    "uvicorn[standard]>=0.52.4",
 ]
 
 [project.scripts]
