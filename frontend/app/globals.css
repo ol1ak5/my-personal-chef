@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #fdf8ec;
-  --color-ink: #263257;
-  --color-tomato: #f2703d;
-  --color-tomato-dark: #d9573a;
-  --color-leaf: #2f6fe0;
-  --color-leaf-bg: #dcebfc;
-  --color-border: #bfdcfb;
+  --color-bg: #fcfaf5;
+  --color-ink: #092f5f;
+  --color-tomato: #ff7657;
+  --color-tomato-dark: #e35b3d;
+  --color-leaf: #2478b8;
+  --color-leaf-bg: #e7f3ff;
+  --color-glow: #dceeff;
+  --color-border: #d7e6f3;
   --color-cream: #ffffff;
-  --color-placeholder: #7c8aa8;
+  --color-placeholder: #6b87a5;
 
-  --shadow-block: 4px 4px 0 var(--color-ink);
-  --shadow-block-sm: 3px 3px 0 var(--color-ink);
+  --shadow-soft: 0 12px 30px rgba(30, 70, 100, 0.1);
+  --shadow-soft-sm: 0 5px 15px rgba(30, 70, 100, 0.08);
 }
 
 @theme inline {
@@ -187,9 +188,11 @@ input {
 
 .corner-blob {
   position: fixed;
-  width: 30rem;
-  height: 30rem;
+  width: 32rem;
+  height: 32rem;
   border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%;
   pointer-events: none;
   z-index: -20;
+  opacity: 0.6;
+  filter: blur(8px);
 }
