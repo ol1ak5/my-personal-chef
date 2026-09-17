@@ -42,17 +42,17 @@ agent = create_agent(
 
 config = {"configurable": {"thread_id": "1"}}
 
-print("¿What are we cooking today, Senchi? What do you have in your fridge?\n")
+if __name__ == "__main__":
+    print("What are we cooking today? What do you have in your fridge?\n")
 
-while True:
-    user_input = input("You: ")
-    if user_input.lower() in ("quit", "exit"):
-        break
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ("quit", "exit"):
+            break
 
-    response = agent.invoke(
-        {"messages": [HumanMessage(content=user_input)]},
-        config
-    )
+        response = agent.invoke(
+            {"messages": [HumanMessage(content=user_input)]},
+            config
+        )
 
-    print("Chef:", response["messages"][-1].content, "\n")
-
+        print("Chef:", response["messages"][-1].content, "\n")
