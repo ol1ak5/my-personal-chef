@@ -2,6 +2,9 @@
 
 A personal cooking-assistant chat app. User describes leftover ingredients (text or a photo), a LangChain/Gemini agent searches the web and suggests recipes. Olya is building this herself and using Claude as a guide/pair — she prefers to drive, and to be told what to do rather than have it done silently, **except for the frontend design work**, where she's asked me to edit the files directly.
 
+## Ground rules
+- **Never credit yourself anywhere.** Not in the README, not in code comments, not as a `Co-Authored-By` trailer on commits, not in project docs. This is Olya's project and her work; assistant attribution does not belong in it. This has had to be said more than once — treat it as absolute.
+
 ## Architecture
 - `backend/` — Python, FastAPI (`api.py`) wrapping a LangChain `create_agent` (`agent.py`) using Google Gemini (`google_genai:gemini-3.6-flash`) + a Tavily web-search tool. Run with `cd backend && uv run uvicorn api:app --reload --port 8000`.
 - `frontend/` — Next.js (App Router) + Tailwind v4. `frontend/app/page.tsx` is the whole UI, `frontend/app/globals.css` holds the design tokens, `frontend/app/sprites.ts` is generated (see below). Run with `cd frontend && npm run dev` (port 3000).
