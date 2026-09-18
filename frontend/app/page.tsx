@@ -60,9 +60,9 @@ function SendIcon({ className, style }: { className?: string; style?: React.CSSP
   );
 }
 
-function CloseIcon({ className }: { className?: string }) {
+function CloseIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className={className}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className={className} style={style}>
       <path d="M6 6l12 12M18 6 6 18" />
     </svg>
   );
@@ -99,7 +99,7 @@ export default function Home() {
   // The guard is for the server render, where localStorage does not exist; the
   // value is never rendered, so the placeholder cannot cause a hydration
   // mismatch, and the initialiser runs again in the browser with the real id.
-  const [threadId] = useState(() => {
+  const [threadId, setThreadId] = useState(() => {
     if (typeof window === "undefined") return "";
     const KEY = "chef-thread-id";
     let id = localStorage.getItem(KEY);
@@ -123,6 +123,38 @@ export default function Home() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  // The backend remembers the thread, but the transcript lives in React state,
+  // so without this a reload would show an empty screen over a full history.
+  useEffect(() => {
+    if (!threadId) return;
+    let cancelled = false;
+    fetch(`http://localhost:8000/history/${threadId}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.messages?.length) setMessages(data.messages);
+      })
+      .catch(() => {
+        // an unreachable backend is already reported when sending; staying
+        // quiet here avoids an error on a page the user has not used yet
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [threadId]);
+
+  // Abandons the thread rather than deleting it: the old conversation stays in
+  // the database, it simply stops being the one this browser asks for.
+  function startNewConversation() {
+    const fresh = crypto.randomUUID();
+    localStorage.setItem("chef-thread-id", fresh);
+    setThreadId(fresh);
+    setMessages([]);
+    setInput("");
+    setImage(null);
+    setError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
 
   async function sendMessage() {
     if (loading) return;
@@ -378,6 +410,21 @@ export default function Home() {
                   <CameraIcon style={{ width: uc(22), height: uc(22) }} />
                   Add photo
                 </button>
+
+                {/* Only offered once there is something to clear, so it cannot be
+                    hit by accident on the opening screen. */}
+                {messages.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={startNewConversation}
+                    aria-label="Start a new conversation"
+                    title="Start a new conversation"
+                    className="flex items-center justify-center rounded-full text-[var(--color-ink)] shrink-0 transition-all hover:bg-[var(--color-leaf-bg)] active:translate-y-0.5"
+                    style={{ width: uc(58), height: uc(58), background: "#F6FAFE", boxShadow: softShadowSm }}
+                  >
+                    <CloseIcon style={{ width: uc(20), height: uc(20) }} />
+                  </button>
+                )}
 
                 {image && (
                   <span
