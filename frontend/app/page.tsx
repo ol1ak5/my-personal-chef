@@ -11,6 +11,7 @@ const REF_H = 992;
 // Sizes are written in reference pixels and resolved through --u / --uc, so the
 // page is exact at 1586x992 and scales down as one piece on smaller screens.
 const u = (n: number) => `calc(${n} * var(--u))`;
+
 const uc = (n: number) => `calc(${n} * var(--uc))`;
 
 // A sprite sits where it sat on the reference canvas: position as a percentage
@@ -87,7 +88,21 @@ const softShadow = "0 12px 30px rgba(30,70,100,0.10)";
 const softShadowSm = "0 5px 15px rgba(30,70,100,0.08)";
 
 export default function Home() {
-  const [threadId] = useState(() => crypto.randomUUID());
+  // Kept in localStorage so a page reload continues the same conversation
+  // instead of silently starting a new one the backend will never be asked for.
+  // The guard is for the server render, where localStorage does not exist; the
+  // value is never rendered, so the placeholder cannot cause a hydration
+  // mismatch, and the initialiser runs again in the browser with the real id.
+  const [threadId] = useState(() => {
+    if (typeof window === "undefined") return "";
+    const KEY = "chef-thread-id";
+    let id = localStorage.getItem(KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(KEY, id);
+    }
+    return id;
+  });
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -105,6 +120,7 @@ export default function Home() {
 
   async function sendMessage() {
     if (loading) return;
+    if (!threadId) return; // only possible during a server render
     if (!input.trim() && !image) return;
 
     const outgoingInput = input;

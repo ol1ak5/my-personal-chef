@@ -30,14 +30,34 @@ def image_message_from_bytes(text: str, image_bytes: bytes, mime_type: str) -> H
         {"type": "image", "base64": image_b64, "mime_type": mime_type},
     ])
 
+import sqlite3
+from pathlib import Path
+
 from langchain.agents import create_agent
-from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+# Conversation history lives in a SQLite file next to this module. Anchoring the
+# path to __file__ rather than using a bare relative name means the history does
+# not depend on which directory uvicorn happened to be started from.
+DB_PATH = Path(__file__).parent / "checkpoints.sqlite"
+
+# check_same_thread=False because the connection is opened once here, on import,
+# while uvicorn serves requests from a thread pool. SqliteSaver funnels every
+# database access through its own lock, so the connection is never used
+# concurrently.
+conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+
+# Note: SqliteSaver.from_conn_string() is a context manager that closes the
+# connection on exit — fine for a script, wrong for an agent that has to live as
+# long as the server. The direct constructor is the right form here.
+checkpointer = SqliteSaver(conn)
+checkpointer.setup()  # create the tables now, so a bad path fails at startup
 
 agent = create_agent(
     model="google_genai:gemini-3.6-flash",
     tools=[web_search],
     system_prompt=system_prompt,
-    checkpointer=InMemorySaver()
+    checkpointer=checkpointer,
 )
 
 config = {"configurable": {"thread_id": "1"}}

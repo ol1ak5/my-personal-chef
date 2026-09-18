@@ -46,6 +46,8 @@ Known limitation: the sprites are cut at 1× and upscaled 3× with Lanczos, so t
 - CORS: `backend/api.py` allows `http://localhost:3000` — required for the frontend fetch to work at all; don't remove it.
 
 ## Roadmap still open
-- **Step 11: persistent memory** — replace `InMemorySaver` in `agent.py` with a real checkpointer. Next up.
+- **Step 11a: persistent memory** — done. `SqliteSaver` in `agent.py`, thread id kept in `localStorage` on the frontend.
+- **Step 11b: show the history** — the transcript still lives only in React state, so a reload shows an empty screen even though the backend remembers. Needs a `GET /history/{thread_id}` endpoint and a load on mount. Next up.
+- **Step 11c: let the user start over** — a "new conversation" control. `SqliteSaver.delete_thread(thread_id)` exists if the old thread should actually be erased rather than abandoned.
 - **Step 12: deployment** — deliberately deferred until the design is finished.
 - Push the project to GitHub. `backend/.env` holds `GOOGLE_API_KEY` and `TAVILY_API_KEY` and is covered by `backend/.gitignore`; verify that still holds before any push.
