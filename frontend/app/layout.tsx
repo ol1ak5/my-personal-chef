@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
-import { Nunito, Baloo_2 } from "next/font/google";
+import { Fredoka } from "next/font/google";
 import "./globals.css";
 
-const nunito = Nunito({
-  variable: "--font-nunito",
+// The reference sets *everything* — headline, badge, bubble, placeholder — in
+// one heavy rounded family. Measured against the reference image, Fredoka at
+// ~60px reproduces its headline metrics almost exactly (cap-height 42px,
+// "What can we make" = 513px vs the reference's 516px).
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-});
-
-const baloo = Baloo_2({
-  variable: "--font-baloo",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -21,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${nunito.variable} ${baloo.variable} h-full`}>
+    <html lang="en" className={`${fredoka.variable} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

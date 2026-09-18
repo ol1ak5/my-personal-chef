@@ -8,9 +8,20 @@
   --color-leaf: #2478b8;
   --color-leaf-bg: #e7f3ff;
   --color-glow: #dceeff;
-  --color-border: #d7e6f3;
+  --color-border: #b9dbfe;
   --color-cream: #ffffff;
   --color-placeholder: #6b87a5;
+
+  /* One "reference pixel". The layout is built on the reference's 1586x992
+     canvas, so every size in the hero is written as a multiple of --u: at that
+     viewport it resolves to exactly 1px and the page matches the reference, and
+     on anything smaller the whole composition shrinks as a unit instead of
+     overflowing and crushing the composer against the greeting.
+     0.10081vh == 1px at 992 tall; 0.06305vw == 1px at 1586 wide. */
+  --u: min(clamp(0.58px, 0.10081vh, 1px), clamp(0.58px, 0.06305vw, 1px));
+  /* The composer is the part people actually type into, so it holds its size
+     far longer than the decorative hero above it. */
+  --uc: min(clamp(0.8px, 0.10081vh, 1px), clamp(0.8px, 0.06305vw, 1px));
 
   --shadow-soft: 0 12px 30px rgba(30, 70, 100, 0.1);
   --shadow-soft-sm: 0 5px 15px rgba(30, 70, 100, 0.08);
@@ -23,14 +34,14 @@
   --color-leaf: var(--color-leaf);
   --color-leaf-bg: var(--color-leaf-bg);
   --color-cream: var(--color-cream);
-  --font-display: var(--font-baloo);
-  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
+  --font-sans: var(--font-fredoka);
 }
 
 body {
   background: var(--color-bg);
   color: var(--color-ink);
-  font-family: var(--font-nunito), sans-serif;
+  font-family: var(--font-fredoka), sans-serif;
 }
 
 ::selection {
@@ -119,7 +130,7 @@ input {
 .chef-markdown h1,
 .chef-markdown h2,
 .chef-markdown h3 {
-  font-family: var(--font-baloo), sans-serif;
+  font-family: var(--font-fredoka), sans-serif;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -184,15 +195,4 @@ input {
   color: var(--color-leaf);
   text-decoration: underline;
   text-underline-offset: 2px;
-}
-
-.corner-blob {
-  position: fixed;
-  width: 32rem;
-  height: 32rem;
-  border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%;
-  pointer-events: none;
-  z-index: -20;
-  opacity: 0.6;
-  filter: blur(8px);
 }
