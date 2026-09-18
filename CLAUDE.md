@@ -33,6 +33,7 @@ Known limitation: the sprites are cut at 1× and upscaled 3× with Lanczos, so t
 
 ### Typography and scaling
 - One family everywhere: **Fredoka**. Chosen by measurement, not taste — at cap-height 42px it renders "What can we make" at 513px against the reference's 516px; Quicksand, Baloo 2 and Nunito were all 6–12% too wide.
+- The hero no longer matches the reference 1:1 **on purpose**: `HERO = 0.85` in `page.tsx` scales the mascot, badge, headline and greeting down as one block, because at full reference size they crowded out the chat. Olya asked for this. Do not "fix" it back — the rest of the page is still reference-exact, and a diff overlay will show the hero glowing for this reason alone.
 - `--u` and `--uc` in `globals.css` are "reference pixels": they resolve to exactly 1px at 1586×992 and shrink below that, so the hero scales as one piece instead of overflowing. Hero sizes are written `calc(N * var(--u))` where N is the number measured off the reference; the composer uses `--uc`, which has a higher floor because it is the part people type into. **Do not reintroduce raw px into the hero** — that is exactly what made the composer collide with the greeting on a 1457×827 screen.
 
 ### Still rough by design

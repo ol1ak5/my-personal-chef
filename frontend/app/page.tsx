@@ -12,6 +12,12 @@ const REF_H = 992;
 // page is exact at 1586x992 and scales down as one piece on smaller screens.
 const u = (n: number) => `calc(${n} * var(--u))`;
 
+// The hero is deliberately drawn smaller than the reference: at full reference
+// size the mascot, headline and greeting dominated the screen and left little
+// room for the chat itself. One factor keeps the whole block in proportion --
+// the accent bursts stay aligned to the headline because they scale with it.
+const HERO = 0.85;
+const h = (n: number) => u(n * HERO);
 const uc = (n: number) => `calc(${n} * var(--uc))`;
 
 // A sprite sits where it sat on the reference canvas: position as a percentage
@@ -194,19 +200,19 @@ export default function Home() {
         } max-w-[810px] mx-auto w-full px-6`}
       >
         {!hasConversation && (
-          <div className="relative flex flex-col" style={{ paddingTop: u(67) }}>
+          <div className="relative flex flex-col" style={{ paddingTop: h(67) }}>
             <div className="flex flex-col items-center">
               {/* the pale blue glow behind the bowl is baked into the sprite */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/food/${POT.name}.png`} alt="" aria-hidden width={POT.w} height={POT.h} style={{ width: u(POT.w), height: u(POT.h), marginLeft: u(1) }} />
+              <img src={`/food/${POT.name}.png`} alt="" aria-hidden width={POT.w} height={POT.h} style={{ width: h(POT.w), height: h(POT.h), marginLeft: h(1) }} />
 
               <span
                 className="inline-flex items-center rounded-full font-semibold uppercase tracking-[0.12em]"
                 style={{
-                  marginTop: u(1),
-                  height: u(58),
-                  paddingInline: u(28),
-                  fontSize: u(20),
+                  marginTop: h(1),
+                  height: h(58),
+                  paddingInline: h(28),
+                  fontSize: h(20),
                   background: "var(--color-leaf-bg)",
                   color: "var(--color-leaf)",
                 }}
@@ -214,12 +220,12 @@ export default function Home() {
                 {"Personal\u2002Chef"}
               </span>
 
-              <div className="relative w-full" style={{ marginTop: u(6) }}>
+              <div className="relative w-full" style={{ marginTop: h(6) }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/food/${BURST_LEFT.name}.png`} alt="" aria-hidden className="absolute" style={{ left: `calc(50% - ${u(793 - BURST_LEFT.x)})`, top: u(BURST_LEFT.y - 324), width: u(BURST_LEFT.w), height: u(BURST_LEFT.h) }} />
+                <img src={`/food/${BURST_LEFT.name}.png`} alt="" aria-hidden className="absolute" style={{ left: `calc(50% - ${h(793 - BURST_LEFT.x)})`, top: h(BURST_LEFT.y - 324), width: h(BURST_LEFT.w), height: h(BURST_LEFT.h) }} />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/food/${BURST_RIGHT.name}.png`} alt="" aria-hidden className="absolute" style={{ left: `calc(50% + ${u(BURST_RIGHT.x - 793)})`, top: u(BURST_RIGHT.y - 324), width: u(BURST_RIGHT.w), height: u(BURST_RIGHT.h) }} />
-                <h1 className="text-center font-[family-name:var(--font-display)] font-semibold leading-[1.2] text-[var(--color-ink)]" style={{ fontSize: u(60) }}>
+                <img src={`/food/${BURST_RIGHT.name}.png`} alt="" aria-hidden className="absolute" style={{ left: `calc(50% + ${h(BURST_RIGHT.x - 793)})`, top: h(BURST_RIGHT.y - 324), width: h(BURST_RIGHT.w), height: h(BURST_RIGHT.h) }} />
+                <h1 className="text-center font-[family-name:var(--font-display)] font-semibold leading-[1.2] text-[var(--color-ink)]" style={{ fontSize: h(60) }}>
                   What can we make
                   <br />
                   today?
@@ -227,21 +233,21 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex items-start" style={{ gap: u(14), marginTop: u(40), paddingLeft: u(9) }}>
+            <div className="flex items-start" style={{ gap: h(14), marginTop: h(40), paddingLeft: h(9) }}>
               <span
                 className="flex items-center justify-center rounded-full shrink-0"
-                style={{ marginTop: u(2), width: u(70), height: u(70), background: "var(--color-leaf-bg)" }}
+                style={{ marginTop: h(2), width: h(70), height: h(70), background: "var(--color-leaf-bg)" }}
               >
-                <ChefHatIcon style={{ width: u(44), height: u(44) }} />
+                <ChefHatIcon style={{ width: h(44), height: h(44) }} />
               </span>
               <div className="relative">
                 <div
                   className="flex items-center text-[var(--color-ink)] font-medium"
                   style={{
-                    borderRadius: u(28),
-                    paddingInline: u(30),
-                    height: u(86),
-                    fontSize: u(24),
+                    borderRadius: h(28),
+                    paddingInline: h(30),
+                    height: h(86),
+                    fontSize: h(24),
                     background: "var(--color-leaf-bg)",
                     boxShadow: softShadowSm,
                   }}
