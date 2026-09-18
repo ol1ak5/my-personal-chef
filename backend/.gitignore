@@ -2,3 +2,8 @@
 .env
 __pycache__/
 *.pyc
+
+# conversation history — private, binary, and rewritten on every message.
+# The glob matters: SQLite runs in WAL mode and keeps -wal and -shm sidecar
+# files alongside the database, which hold data too.
+checkpoints.sqlite*
