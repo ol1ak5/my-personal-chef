@@ -25,7 +25,7 @@ A long earlier attempt to hand-code the food characters as inline SVG never got 
 cd frontend && python3 scripts/extract-reference-assets.py
 ```
 
-It writes 29 sprites plus `background.png` into `frontend/public/food/`, `manifest.json` next to them, and generates `frontend/app/sprites.ts` with each sprite's position on the reference canvas. The page puts every sprite back at exactly that spot. **The script re-cuts from the reference and overwrites everything in `public/food/`** — so if the PNGs have been replaced with higher-resolution redraws, do not run it.
+It writes 32 sprites plus `background.png` into `frontend/public/food/`, `manifest.json` next to them, and generates `frontend/app/sprites.ts` with each sprite's position on the reference canvas. The page puts every sprite back at exactly that spot. **The script re-cuts from the reference and overwrites everything in `public/food/`** — so if the PNGs have been replaced with higher-resolution redraws, do not run it.
 
 The soft corner wash is also sampled from the reference (every drawn element masked out, averaged into a 64×40 image the browser stretches back up) rather than drawn with CSS blobs, which never matched.
 
