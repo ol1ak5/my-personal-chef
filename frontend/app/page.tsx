@@ -32,7 +32,7 @@ function FoodSprite({ sprite, className, style }: { sprite: Sprite; className?: 
       width={sprite.w}
       height={sprite.h}
       className={className}
-      style={{ position: "absolute", left: `${(sprite.x / REF_W) * 100}%`, top: `${(sprite.y / REF_H) * 100}%`, width: u(sprite.w), height: u(sprite.h), ...style }}
+      style={{ position: "absolute", left: `${(sprite.x / REF_W) * 100}%`, top: `${(sprite.y / REF_H) * 100}%`, width: u(sprite.w), height: u(sprite.h), objectFit: "contain", ...style }}
     />
   );
 }
