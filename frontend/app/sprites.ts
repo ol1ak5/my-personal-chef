@@ -36,6 +36,6 @@ export const SCATTERED: Sprite[] = [
   { name: "swoosh-left", x: 0, y: 488, w: 101, h: 94, delay: 1.56 },
 ];
 
-export const POT = { name: "pot", x: 646, y: 67, w: 296, h: 192 };
+export const POT = { name: "pot", x: 653, y: 67, w: 282, h: 192 };
 export const BURST_LEFT = { name: "burst-left", x: 636, y: 406, w: 32, h: 62 };
 export const BURST_RIGHT = { name: "burst-right", x: 922, y: 406, w: 30, h: 63 };
