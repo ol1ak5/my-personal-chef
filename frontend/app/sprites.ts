@@ -11,7 +11,7 @@ export const SCATTERED: Sprite[] = [
   { name: "blueberries", x: 145, y: 605, w: 87, h: 61, delay: 1.6 },
   { name: "lemon", x: 186, y: 800, w: 111, h: 76, delay: 0.3 },
   { name: "carrot", x: 1177, y: 97, w: 93, h: 96, delay: 0.8 },
-  { name: "banana", x: 1396, y: 255, w: 94, h: 67, delay: 1.4 },
+  { name: "banana", x: 1402, y: 255, w: 82, h: 67, delay: 1.4 },
   { name: "apple", x: 1336, y: 406, w: 83, h: 70, delay: 0.2 },
   { name: "avocado", x: 1422, y: 629, w: 86, h: 71, delay: 1.9 },
   { name: "radish", x: 1226, y: 709, w: 72, h: 77, delay: 1.0 },
