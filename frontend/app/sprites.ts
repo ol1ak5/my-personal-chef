@@ -6,7 +6,7 @@ export type Sprite = { name: string; x: number; y: number; w: number; h: number;
 
 export const SCATTERED: Sprite[] = [
   { name: "tomato", x: 99, y: 113, w: 125, h: 70, delay: 0 },
-  { name: "broccoli", x: 357, y: 177, w: 117, h: 89, delay: 0.5 },
+  { name: "broccoli", x: 361, y: 177, w: 84, h: 74, delay: 0.5 },
   { name: "eggplant", x: 112, y: 388, w: 96, h: 82, delay: 1.1 },
   { name: "blueberries", x: 145, y: 605, w: 87, h: 61, delay: 1.6 },
   { name: "lemon", x: 186, y: 800, w: 111, h: 76, delay: 0.3 },
