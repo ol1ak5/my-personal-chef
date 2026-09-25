@@ -54,6 +54,21 @@ def strip_checkerboard(rgb: np.ndarray) -> np.ndarray:
             background |= region
 
     alpha = (~ndimage.binary_closing(background, np.ones((3, 3)))).astype(float)
+
+    # A checker cell can survive the two-tone test when the region it sits in is
+    # small enough to hold only one shade. What gives it away afterwards is that
+    # it is an island of pure grey: every real part of these drawings is
+    # coloured, and the highlights that are nearly white stay attached to the
+    # character rather than floating free.
+    islands, count = ndimage.label(alpha > 0.5)
+    total = (alpha > 0.5).sum()
+    for i in range(1, count + 1):
+        island = islands == i
+        if island.sum() > total * 0.02:
+            continue
+        if sat[island].mean() < 15 and bright[island].mean() > 225:
+            alpha[island] = 0
+
     return np.array(Image.fromarray((alpha * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6))) / 255.0
 
 
