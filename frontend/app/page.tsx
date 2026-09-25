@@ -294,15 +294,15 @@ export default function Home() {
         {hasConversation && (
           <div className="flex items-center gap-4 pt-6 pb-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/food/${POT.name}.png`} alt="" aria-hidden className="shrink-0" style={{ width: 104, height: Math.round((104 * POT.h) / POT.w) }} />
+            <img src={`/food/${POT.name}.png`} alt="" aria-hidden className="shrink-0" style={{ width: uc(104), height: uc(Math.round((104 * POT.h) / POT.w)) }} />
             <div>
               <span
-                className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.08em]"
-                style={{ background: "var(--color-leaf-bg)", color: "var(--color-leaf)" }}
+                className="px-3 py-1 rounded-full font-bold uppercase tracking-[0.08em]"
+                style={{ background: "var(--color-leaf-bg)", color: "var(--color-leaf)", fontSize: uc(11) }}
               >
                 Personal Chef
               </span>
-              <h1 className="mt-1 font-[family-name:var(--font-display)] font-semibold text-2xl text-[var(--color-ink)]">
+              <h1 className="mt-1 font-[family-name:var(--font-display)] font-semibold text-[var(--color-ink)]" style={{ fontSize: uc(24) }}>
                 Let&apos;s make something delicious!
               </h1>
             </div>
@@ -314,8 +314,8 @@ export default function Home() {
             m.role === "user" ? (
               <div key={i} className="self-end max-w-[65%]">
                 <div
-                  className="animate-pop-in rounded-[22px] px-5 py-3.5 text-white font-semibold text-[1.05rem]"
-                  style={{ background: "var(--color-tomato)", boxShadow: softShadowSm }}
+                  className="animate-pop-in text-white font-semibold"
+                  style={{ background: "var(--color-tomato)", boxShadow: softShadowSm, borderRadius: uc(22), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(17) }}
                 >
                   {m.content}
                 </div>
@@ -323,15 +323,15 @@ export default function Home() {
             ) : (
               <div key={i} className="self-start max-w-[65%] flex items-end gap-3">
                 <span
-                  className="animate-pop-in flex items-center justify-center w-[60px] h-[60px] rounded-full shrink-0"
-                  style={{ background: "var(--color-leaf-bg)" }}
+                  className="animate-pop-in flex items-center justify-center rounded-full shrink-0"
+                  style={{ background: "var(--color-leaf-bg)", width: uc(60), height: uc(60) }}
                 >
-                  <ChefHatIcon className="w-8 h-8" />
+                  <ChefHatIcon style={{ width: uc(32), height: uc(32) }} />
                 </span>
                 <div className="relative animate-pop-in">
                   <div
-                    className="chef-markdown rounded-[26px] px-6 py-4 text-[var(--color-ink)] text-[1.05rem] font-medium"
-                    style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm }}
+                    className="chef-markdown text-[var(--color-ink)] font-medium"
+                    style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm, borderRadius: uc(26), padding: `${uc(16)} ${uc(24)}`, fontSize: uc(17) }}
                   >
                     <ReactMarkdown>{m.content}</ReactMarkdown>
                   </div>
@@ -342,24 +342,24 @@ export default function Home() {
 
           {loading && (
             <div className="self-start flex items-end gap-3 animate-pop-in">
-              <span className="flex items-center justify-center w-[60px] h-[60px] rounded-full shrink-0" style={{ background: "var(--color-leaf-bg)" }}>
-                <ChefHatIcon className="w-8 h-8" />
+              <span className="flex items-center justify-center rounded-full shrink-0" style={{ background: "var(--color-leaf-bg)", width: uc(60), height: uc(60) }}>
+                <ChefHatIcon style={{ width: uc(32), height: uc(32) }} />
               </span>
               <div
-                className="rounded-[26px] px-6 py-4 flex gap-1.5 items-center"
-                style={{ background: "var(--color-leaf-bg)" }}
+                className="flex gap-1.5 items-center"
+                style={{ background: "var(--color-leaf-bg)", borderRadius: uc(26), padding: `${uc(16)} ${uc(24)}` }}
               >
-                <span className="w-2.5 h-2.5 rounded-full dot-bounce" style={{ background: "var(--color-leaf)", animationDelay: "0ms" }} />
-                <span className="w-2.5 h-2.5 rounded-full dot-bounce" style={{ background: "var(--color-leaf)", animationDelay: "150ms" }} />
-                <span className="w-2.5 h-2.5 rounded-full dot-bounce" style={{ background: "var(--color-leaf)", animationDelay: "300ms" }} />
+                <span className="rounded-full dot-bounce" style={{ width: uc(10), height: uc(10), background: "var(--color-leaf)", animationDelay: "0ms" }} />
+                <span className="rounded-full dot-bounce" style={{ width: uc(10), height: uc(10), background: "var(--color-leaf)", animationDelay: "150ms" }} />
+                <span className="rounded-full dot-bounce" style={{ width: uc(10), height: uc(10), background: "var(--color-leaf)", animationDelay: "300ms" }} />
               </div>
             </div>
           )}
 
           {error && (
             <div
-              className="self-start max-w-[85%] rounded-2xl border-2 px-5 py-3.5 font-semibold text-[1.05rem] animate-pop-in"
-              style={{ borderColor: "var(--color-tomato-dark)", color: "var(--color-tomato-dark)", background: "#fff3f0" }}
+              className="self-start max-w-[85%] border-2 font-semibold animate-pop-in"
+              style={{ borderColor: "var(--color-tomato-dark)", color: "var(--color-tomato-dark)", background: "#fff3f0", borderRadius: uc(16), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(17) }}
             >
               {error}
             </div>
