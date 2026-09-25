@@ -404,8 +404,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0 transition-all hover:bg-[var(--color-leaf-bg)] active:translate-y-0.5"
-                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(19), background: "#F6FAFE", boxShadow: softShadowSm }}
+                  className="composer-btn flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0 hover:bg-[var(--color-leaf-bg)]"
+                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(19), background: "#F6FAFE" }}
                 >
                   <CameraIcon style={{ width: uc(22), height: uc(22) }} />
                   Add photo
@@ -418,9 +418,9 @@ export default function Home() {
                     type="button"
                     onClick={startNewConversation}
                     aria-label="Start a new conversation"
-                    title="Start a new conversation"
-                    className="flex items-center justify-center rounded-full text-[var(--color-ink)] shrink-0 transition-all hover:bg-[var(--color-leaf-bg)] active:translate-y-0.5"
-                    style={{ width: uc(58), height: uc(58), background: "#F6FAFE", boxShadow: softShadowSm }}
+                    data-tip="New conversation"
+                    className="composer-btn composer-tip flex items-center justify-center rounded-full text-[var(--color-ink)] shrink-0 hover:bg-[var(--color-leaf-bg)]"
+                    style={{ width: uc(58), height: uc(58), background: "#F6FAFE" }}
                   >
                     <CloseIcon style={{ width: uc(20), height: uc(20) }} />
                   </button>
@@ -439,7 +439,7 @@ export default function Home() {
                         if (fileInputRef.current) fileInputRef.current.value = "";
                       }}
                       aria-label="Remove photo"
-                      className="shrink-0"
+                      className="shrink-0 cursor-pointer transition-opacity hover:opacity-60"
                     >
                       <CloseIcon className="w-3.5 h-3.5" />
                     </button>
@@ -451,8 +451,8 @@ export default function Home() {
                 type="button"
                 onClick={sendMessage}
                 disabled={loading}
-                className="flex items-center justify-center rounded-full font-medium text-white shrink-0 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-0.5 disabled:active:translate-y-0"
-                style={{ gap: uc(10), height: uc(58), paddingInline: uc(32), fontSize: uc(22), background: "var(--color-tomato)", boxShadow: loading ? "none" : softShadowSm }}
+                className="composer-btn composer-btn--send flex items-center justify-center rounded-full font-medium text-white shrink-0 disabled:opacity-50"
+                style={{ gap: uc(10), height: uc(58), paddingInline: uc(32), fontSize: uc(22), background: "var(--color-tomato)" }}
               >
                 {loading ? "Cooking..." : "Send"}
                 {!loading && <SendIcon style={{ width: uc(26), height: uc(26) }} />}

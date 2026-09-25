@@ -196,3 +196,70 @@ input {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Composer buttons.
+   Tailwind v4 dropped the `cursor: pointer` default on <button>, so without
+   this they read as inert. The lift-and-deepen on hover is what tells you the
+   thing is pressable before you press it; the shadow lives here rather than
+   inline because an inline box-shadow would win over any hover rule. */
+.composer-btn {
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(30, 70, 100, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, filter 0.15s ease;
+}
+
+.composer-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(30, 70, 100, 0.16);
+}
+
+.composer-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(30, 70, 100, 0.1);
+}
+
+.composer-btn:focus-visible {
+  outline: 3px solid var(--color-leaf);
+  outline-offset: 2px;
+}
+
+.composer-btn:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* The send button carries colour rather than a background swap, so it darkens
+   instead of tinting. */
+.composer-btn--send:hover:not(:disabled) {
+  filter: brightness(0.93);
+}
+
+/* The reset button is the only one with no visible label, so it says what it
+   does on hover instead of waiting for the browser's own tooltip. */
+.composer-tip {
+  position: relative;
+}
+
+.composer-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.composer-tip:hover::after,
+.composer-tip:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
