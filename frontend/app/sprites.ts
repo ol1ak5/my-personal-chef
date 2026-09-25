@@ -32,8 +32,8 @@ export const SCATTERED: Sprite[] = [
   { name: "leaf-f", x: 150, y: 763, w: 15, h: 15, delay: 0.08 },
   { name: "rays", x: 1172, y: 827, w: 33, h: 63, delay: 0.45 },
   { name: "squiggle", x: 301, y: 45, w: 62, h: 34, delay: 0.82 },
-  { name: "swoosh", x: 1358, y: 839, w: 78, h: 88, delay: 1.19 },
-  { name: "swoosh-left", x: 12, y: 491, w: 78, h: 88, delay: 1.56 },
+  { name: "swoosh", x: 1361, y: 864, w: 74, h: 38, delay: 1.19 },
+  { name: "swoosh-left", x: 0, y: 488, w: 101, h: 94, delay: 1.56 },
 ];
 
 export const POT = { name: "pot", x: 653, y: 67, w: 282, h: 192 };

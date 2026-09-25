@@ -312,7 +312,7 @@ export default function Home() {
         <div className={`flex-1 min-h-0 flex flex-col gap-5 ${hasConversation ? "overflow-y-auto py-8" : ""}`}>
           {messages.map((m, i) =>
             m.role === "user" ? (
-              <div key={i} className="self-end max-w-[68%]">
+              <div key={i} className="self-end max-w-[65%]">
                 <div
                   className="animate-pop-in rounded-[22px] px-5 py-3.5 text-white font-semibold text-[1.05rem]"
                   style={{ background: "var(--color-tomato)", boxShadow: softShadowSm }}
@@ -321,7 +321,7 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              <div key={i} className="self-start max-w-[68%] flex items-end gap-3">
+              <div key={i} className="self-start max-w-[65%] flex items-end gap-3">
                 <span
                   className="animate-pop-in flex items-center justify-center w-[60px] h-[60px] rounded-full shrink-0"
                   style={{ background: "var(--color-leaf-bg)" }}
