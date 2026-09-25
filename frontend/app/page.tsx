@@ -11,6 +11,7 @@ const REF_H = 992;
 // Sizes are written in reference pixels and resolved through --u / --uc, so the
 // page is exact at 1586x992 and scales down as one piece on smaller screens.
 const u = (n: number) => `calc(${n} * var(--u))`;
+const us = (n: number) => `calc(${n} * var(--us))`;
 
 // The hero is deliberately drawn smaller than the reference: at full reference
 // size the mascot, headline and greeting dominated the screen and left little
@@ -32,7 +33,7 @@ function FoodSprite({ sprite, className, style }: { sprite: Sprite; className?: 
       width={sprite.w}
       height={sprite.h}
       className={className}
-      style={{ position: "absolute", left: `${(sprite.x / REF_W) * 100}%`, top: `${(sprite.y / REF_H) * 100}%`, width: u(sprite.w), height: u(sprite.h), objectFit: "contain", ...style }}
+      style={{ position: "absolute", left: `${(sprite.x / REF_W) * 100}%`, top: `${(sprite.y / REF_H) * 100}%`, width: us(sprite.w), height: us(sprite.h), objectFit: "contain", ...style }}
     />
   );
 }
@@ -232,7 +233,7 @@ export default function Home() {
         } max-w-[810px] mx-auto w-full px-6`}
       >
         {!hasConversation && (
-          <div className="relative flex flex-col" style={{ paddingTop: h(67) }}>
+          <div className="relative flex flex-col max-md:flex-1 max-md:justify-center max-md:pt-0" style={{ paddingTop: h(67) }}>
             <div className="flex flex-col items-center">
               {/* the pale blue glow behind the bowl is baked into the sprite */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -309,10 +310,10 @@ export default function Home() {
           </div>
         )}
 
-        <div className={`flex-1 min-h-0 flex flex-col gap-5 ${hasConversation ? "overflow-y-auto py-8" : ""}`}>
+        <div className={`min-h-0 flex flex-col gap-5 ${hasConversation ? "flex-1 overflow-y-auto py-8" : "max-md:flex-none flex-1"}`}>
           {messages.map((m, i) =>
             m.role === "user" ? (
-              <div key={i} className="self-end max-w-[65%]">
+              <div key={i} className="self-end max-w-[65%] max-md:max-w-[88%]">
                 <div
                   className="animate-pop-in text-white font-semibold"
                   style={{ background: "var(--color-tomato)", boxShadow: softShadowSm, borderRadius: uc(22), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(17) }}
@@ -321,9 +322,9 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              <div key={i} className="self-start max-w-[65%] flex items-end gap-3">
+              <div key={i} className="self-start max-w-[65%] max-md:max-w-[92%] flex items-end gap-3">
                 <span
-                  className="animate-pop-in flex items-center justify-center rounded-full shrink-0"
+                  className="animate-pop-in max-md:hidden flex items-center justify-center rounded-full shrink-0"
                   style={{ background: "var(--color-leaf-bg)", width: uc(60), height: uc(60) }}
                 >
                   <ChefHatIcon style={{ width: uc(32), height: uc(32) }} />
@@ -342,7 +343,7 @@ export default function Home() {
 
           {loading && (
             <div className="self-start flex items-end gap-3 animate-pop-in">
-              <span className="flex items-center justify-center rounded-full shrink-0" style={{ background: "var(--color-leaf-bg)", width: uc(60), height: uc(60) }}>
+              <span className="max-md:hidden flex items-center justify-center rounded-full shrink-0" style={{ background: "var(--color-leaf-bg)", width: uc(60), height: uc(60) }}>
                 <ChefHatIcon style={{ width: uc(32), height: uc(32) }} />
               </span>
               <div

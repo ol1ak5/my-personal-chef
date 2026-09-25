@@ -22,6 +22,12 @@
   /* The composer is the part people actually type into, so it holds its size
      far longer than the decorative hero above it. */
   --uc: min(clamp(0.8px, 0.10081vh, 1px), clamp(0.8px, 0.06305vw, 1px));
+  /* The scattered food has no floor at all. --u stops shrinking at 0.58px so
+     that text stays readable, which is right for the hero but wrong for
+     decoration: below about 920px wide the illustrations stop keeping pace with
+     the page and start colliding with the words. Left to follow the viewport,
+     the whole scatter simply becomes a smaller copy of itself. */
+  --us: min(clamp(0px, 0.10081vh, 1px), clamp(0px, 0.06305vw, 1px));
 
   --shadow-soft: 0 12px 30px rgba(30, 70, 100, 0.1);
   --shadow-soft-sm: 0 5px 15px rgba(30, 70, 100, 0.08);
