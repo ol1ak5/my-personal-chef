@@ -71,12 +71,16 @@ The two halves deploy separately: a static Next.js frontend, and a Python servic
 | | |
 |---|---|
 | **Frontend** | Any static host. Set the backend's public address as an environment variable instead of the hardcoded `http://localhost:8000`. |
-| **Backend** | Any host that runs Python and offers persistent storage. `checkpoints.sqlite` must survive restarts, or every redeploy wipes the conversations. |
+| **Backend** | Any host that runs Python. Point `DATABASE_URL` at a Postgres database — free tiers are plenty, since checkpoints are kilobytes — and the history no longer depends on the host keeping a filesystem between deploys. |
 
-Two things must change before it works in public:
+Everything that differs between a laptop and a server is an environment variable, and each falls back to the local default when unset:
 
-- **CORS.** `backend/api.py` allows `http://localhost:3000` only. The deployed frontend's address has to be added, or every request from it is blocked.
-- **Secrets.** `GOOGLE_API_KEY` and `TAVILY_API_KEY` move from `.env` into the host's environment variables. The `.env` file itself is never deployed.
+| Variable | Side | Effect |
+|---|---|---|
+| `DATABASE_URL` | backend | Postgres connection string. Unset, conversations go to `checkpoints.sqlite` instead. |
+| `ALLOWED_ORIGINS` | backend | Comma-separated origins allowed to call the API. The deployed frontend must be listed or the browser blocks every request. |
+| `NEXT_PUBLIC_API_URL` | frontend | Where the backend lives. Next.js bakes this in at build time, so changing it needs a rebuild, not a restart. |
+| `GOOGLE_API_KEY`, `TAVILY_API_KEY` | backend | Move from `.env` into the host's own settings. The `.env` file is never deployed. |
 
 ## 📁 Project Structure
 

@@ -91,6 +91,12 @@ function ChefHatIcon({ className, style }: { className?: string; style?: React.C
   );
 }
 
+// Where the backend lives. NEXT_PUBLIC_ is required for the browser to see it
+// at all, and Next.js substitutes the value at build time rather than reading it
+// when the page runs -- so a deployed frontend has to be rebuilt, not just
+// restarted, to point somewhere else.
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
 const softShadow = "0 12px 30px rgba(30,70,100,0.10)";
 const softShadowSm = "0 5px 15px rgba(30,70,100,0.08)";
 
@@ -130,7 +136,7 @@ export default function Home() {
   useEffect(() => {
     if (!threadId) return;
     let cancelled = false;
-    fetch(`http://localhost:8000/history/${threadId}`)
+    fetch(`${API_URL}/history/${threadId}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (!cancelled && data?.messages?.length) setMessages(data.messages);
@@ -183,7 +189,7 @@ export default function Home() {
         formData.append("image", outgoingImage);
       }
 
-      const res = await fetch("http://localhost:8000/chat", {
+      const res = await fetch(`${API_URL}/chat`, {
         method: "POST",
         body: formData,
       });

@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -7,9 +9,19 @@ from langchain.messages import AIMessage, HumanMessage
 
 app = FastAPI()
 
+# The browser will not let the page call this API unless the API names the
+# page's exact origin, so the deployed frontend's address has to be added here
+# before it will work at all. ALLOWED_ORIGINS takes a comma-separated list;
+# the localhost default keeps `npm run dev` working with no configuration.
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
