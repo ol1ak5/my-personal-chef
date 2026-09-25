@@ -30,28 +30,61 @@ def image_message_from_bytes(text: str, image_bytes: bytes, mime_type: str) -> H
         {"type": "image", "base64": image_b64, "mime_type": mime_type},
     ])
 
+import os
 import sqlite3
 from pathlib import Path
 
 from langchain.agents import create_agent
-from langgraph.checkpoint.sqlite import SqliteSaver
 
-# Conversation history lives in a SQLite file next to this module. Anchoring the
-# path to __file__ rather than using a bare relative name means the history does
-# not depend on which directory uvicorn happened to be started from.
-DB_PATH = Path(__file__).parent / "checkpoints.sqlite"
 
-# check_same_thread=False because the connection is opened once here, on import,
-# while uvicorn serves requests from a thread pool. SqliteSaver funnels every
-# database access through its own lock, so the connection is never used
-# concurrently.
-conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+def build_checkpointer():
+    """Conversation history: Postgres where deployed, SQLite on a laptop.
 
-# Note: SqliteSaver.from_conn_string() is a context manager that closes the
-# connection on exit — fine for a script, wrong for an agent that has to live as
-# long as the server. The direct constructor is the right form here.
-checkpointer = SqliteSaver(conn)
-checkpointer.setup()  # create the tables now, so a bad path fails at startup
+    Both present the same interface, so nothing else in the project knows which
+    one it is talking to. The split exists because a SQLite checkpointer is a
+    file, and most hosts rebuild their filesystem on every deploy -- every code
+    change would silently wipe the conversations. DATABASE_URL is what a host
+    hands the process, so its presence doubles as "this is not a laptop".
+
+    Note for both branches: the from_conn_string() helpers are context managers
+    that close the connection on exit. That is right for a script and wrong for
+    an agent that has to live as long as the server, so the connection is opened
+    directly here.
+    """
+    database_url = os.getenv("DATABASE_URL")
+
+    if database_url:
+        import psycopg
+        from langgraph.checkpoint.postgres import PostgresSaver
+
+        # These three are not stylistic. PostgresSaver writes outside an explicit
+        # transaction, addresses its rows by name, and re-plans each statement
+        # rather than reusing a prepared one -- the same set that
+        # PostgresSaver.from_conn_string() applies before handing back a saver.
+        conn = psycopg.connect(
+            database_url,
+            autocommit=True,
+            prepare_threshold=0,
+            row_factory=psycopg.rows.dict_row,
+        )
+        return PostgresSaver(conn)
+
+    from langgraph.checkpoint.sqlite import SqliteSaver
+
+    # Anchored to __file__ rather than left relative, so the history does not
+    # depend on which directory uvicorn happened to be started from.
+    #
+    # check_same_thread=False because the connection is opened once, on import,
+    # while uvicorn serves requests from a thread pool. Safe for both savers:
+    # each funnels every database access through a lock of its own, so the
+    # connection is never used concurrently.
+    db_path = Path(__file__).parent / "checkpoints.sqlite"
+    conn = sqlite3.connect(db_path, check_same_thread=False)
+    return SqliteSaver(conn)
+
+
+checkpointer = build_checkpointer()
+checkpointer.setup()  # create the tables now, so a bad connection fails at startup
 
 agent = create_agent(
     model="google_genai:gemini-3.6-flash",
