@@ -61,12 +61,35 @@ def build_checkpointer():
         # transaction, addresses its rows by name, and re-plans each statement
         # rather than reusing a prepared one -- the same set that
         # PostgresSaver.from_conn_string() applies before handing back a saver.
-        conn = psycopg.connect(
-            database_url,
-            autocommit=True,
-            prepare_threshold=0,
-            row_factory=psycopg.rows.dict_row,
-        )
+        try:
+            conn = psycopg.connect(
+                database_url,
+                autocommit=True,
+                prepare_threshold=0,
+                row_factory=psycopg.rows.dict_row,
+            )
+        except psycopg.OperationalError as exc:
+            # Failing here is deliberate -- a server that starts without its
+            # database would lose every conversation silently. But psycopg's own
+            # message arrives under fifty lines of traceback, and the causes are
+            # few and specific enough to name.
+            raise RuntimeError(
+                "Could not connect to the database.\n"
+                f"  {exc}\n"
+                "  Read the server's own words above before changing anything -- "
+                "they say which half is wrong:\n"
+                "  - 'password authentication failed for user postgres' means the "
+                "pooler found the project and rejected the password. Note the name "
+                "is reported as plain postgres either way, because the pooler "
+                "strips the project ref off for itself, so this is never evidence "
+                "about the username.\n"
+                "  - 'no tenant identifier provided' is the username: it has to be "
+                "postgres.<project-ref>, with the dot.\n"
+                "  On a password: check [YOUR-PASSWORD] was replaced, square "
+                "brackets and all, and that any @ / : # or ? in it is "
+                "percent-encoded -- unescaped, they are read as part of the address."
+            ) from None
+
         return PostgresSaver(conn)
 
     from langgraph.checkpoint.sqlite import SqliteSaver
