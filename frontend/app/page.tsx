@@ -285,8 +285,8 @@ export default function Home() {
                   style={{
                     borderRadius: h(28),
                     paddingInline: h(30),
-                    height: h(80),
-                    fontSize: h(22),
+                    height: h(85),
+                    fontSize: h(23.5),
                     background: "var(--color-leaf-bg)",
                     boxShadow: softShadowSm,
                   }}
@@ -322,7 +322,7 @@ export default function Home() {
               <div key={i} className="self-end max-w-[65%] max-md:max-w-[88%]">
                 <div
                   className="animate-pop-in text-white font-semibold"
-                  style={{ background: "var(--color-tomato)", boxShadow: softShadowSm, borderRadius: uc(22), padding: `${uc(16)} ${uc(24)}`, fontSize: uc(21) }}
+                  style={{ background: "var(--color-tomato)", boxShadow: softShadowSm, borderRadius: uc(22), padding: `${uc(16)} ${uc(24)}`, fontSize: uc(20) }}
                 >
                   {m.content}
                 </div>
@@ -338,7 +338,7 @@ export default function Home() {
                 <div className="relative animate-pop-in">
                   <div
                     className="chef-markdown text-[var(--color-ink)] font-medium"
-                    style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm, borderRadius: uc(26), padding: `${uc(18)} ${uc(28)}`, fontSize: uc(21) }}
+                    style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm, borderRadius: uc(26), padding: `${uc(18)} ${uc(28)}`, fontSize: uc(20) }}
                   >
                     <ReactMarkdown>{m.content}</ReactMarkdown>
                   </div>
@@ -366,7 +366,7 @@ export default function Home() {
           {error && (
             <div
               className="self-start max-w-[85%] border-2 font-semibold animate-pop-in"
-              style={{ borderColor: "var(--color-tomato-dark)", color: "var(--color-tomato-dark)", background: "#fff3f0", borderRadius: uc(16), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(21) }}
+              style={{ borderColor: "var(--color-tomato-dark)", color: "var(--color-tomato-dark)", background: "#fff3f0", borderRadius: uc(16), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(20) }}
             >
               {error}
             </div>
@@ -412,7 +412,7 @@ export default function Home() {
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   className="composer-btn composer-btn--soft flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0"
-                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(21), background: "var(--color-leaf-bg)" }}
+                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(20), background: "var(--color-leaf-bg)" }}
                 >
                   <CameraIcon style={{ width: uc(22), height: uc(22) }} />
                   Add photo
