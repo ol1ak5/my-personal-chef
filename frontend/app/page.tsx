@@ -285,8 +285,8 @@ export default function Home() {
                   style={{
                     borderRadius: h(28),
                     paddingInline: h(30),
-                    height: h(86),
-                    fontSize: h(24),
+                    height: h(80),
+                    fontSize: h(22),
                     background: "var(--color-leaf-bg)",
                     boxShadow: softShadowSm,
                   }}
@@ -322,7 +322,7 @@ export default function Home() {
               <div key={i} className="self-end max-w-[65%] max-md:max-w-[88%]">
                 <div
                   className="animate-pop-in text-white font-semibold"
-                  style={{ background: "var(--color-tomato)", boxShadow: softShadowSm, borderRadius: uc(22), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(17) }}
+                  style={{ background: "var(--color-tomato)", boxShadow: softShadowSm, borderRadius: uc(22), padding: `${uc(15)} ${uc(22)}`, fontSize: uc(19) }}
                 >
                   {m.content}
                 </div>
@@ -338,7 +338,7 @@ export default function Home() {
                 <div className="relative animate-pop-in">
                   <div
                     className="chef-markdown text-[var(--color-ink)] font-medium"
-                    style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm, borderRadius: uc(26), padding: `${uc(16)} ${uc(24)}`, fontSize: uc(17) }}
+                    style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm, borderRadius: uc(26), padding: `${uc(17)} ${uc(26)}`, fontSize: uc(19) }}
                   >
                     <ReactMarkdown>{m.content}</ReactMarkdown>
                   </div>
@@ -354,7 +354,7 @@ export default function Home() {
               </span>
               <div
                 className="flex gap-1.5 items-center"
-                style={{ background: "var(--color-leaf-bg)", borderRadius: uc(26), padding: `${uc(16)} ${uc(24)}` }}
+                style={{ background: "var(--color-leaf-bg)", borderRadius: uc(26), padding: `${uc(17)} ${uc(26)}` }}
               >
                 <span className="rounded-full dot-bounce" style={{ width: uc(10), height: uc(10), background: "var(--color-leaf)", animationDelay: "0ms" }} />
                 <span className="rounded-full dot-bounce" style={{ width: uc(10), height: uc(10), background: "var(--color-leaf)", animationDelay: "150ms" }} />
@@ -366,7 +366,7 @@ export default function Home() {
           {error && (
             <div
               className="self-start max-w-[85%] border-2 font-semibold animate-pop-in"
-              style={{ borderColor: "var(--color-tomato-dark)", color: "var(--color-tomato-dark)", background: "#fff3f0", borderRadius: uc(16), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(17) }}
+              style={{ borderColor: "var(--color-tomato-dark)", color: "var(--color-tomato-dark)", background: "#fff3f0", borderRadius: uc(16), padding: `${uc(14)} ${uc(20)}`, fontSize: uc(19) }}
             >
               {error}
             </div>
@@ -411,8 +411,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="composer-btn flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0 hover:bg-[var(--color-leaf-bg)]"
-                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(19), background: "#F6FAFE" }}
+                  className="composer-btn composer-btn--soft flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0"
+                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(19), background: "var(--color-leaf-bg)" }}
                 >
                   <CameraIcon style={{ width: uc(22), height: uc(22) }} />
                   Add photo
@@ -426,8 +426,8 @@ export default function Home() {
                     onClick={startNewConversation}
                     aria-label="Start a new conversation"
                     data-tip="New conversation"
-                    className="composer-btn composer-tip flex items-center justify-center rounded-full text-[var(--color-ink)] shrink-0 hover:bg-[var(--color-leaf-bg)]"
-                    style={{ width: uc(58), height: uc(58), background: "#F6FAFE" }}
+                    className="composer-btn composer-btn--soft composer-tip flex items-center justify-center rounded-full text-[var(--color-ink)] shrink-0"
+                    style={{ width: uc(58), height: uc(58), background: "var(--color-leaf-bg)" }}
                   >
                     <CloseIcon style={{ width: uc(20), height: uc(20) }} />
                   </button>

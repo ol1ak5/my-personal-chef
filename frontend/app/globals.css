@@ -219,6 +219,12 @@ input {
   box-shadow: 0 10px 24px rgba(30, 70, 100, 0.16);
 }
 
+/* The two secondary buttons sit on a blue tint rather than near-white, so the
+   hover has to deepen rather than introduce colour. */
+.composer-btn--soft:hover:not(:disabled) {
+  background: var(--color-glow);
+}
+
 .composer-btn:active:not(:disabled) {
   transform: translateY(1px);
   box-shadow: 0 3px 8px rgba(30, 70, 100, 0.1);
