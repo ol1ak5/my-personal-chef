@@ -239,7 +239,7 @@ export default function Home() {
         } max-w-[810px] mx-auto w-full px-6`}
       >
         {!hasConversation && (
-          <div className="relative flex flex-col max-md:flex-1 max-md:justify-center max-md:pt-0" style={{ paddingTop: h(67) }}>
+          <div className="relative flex flex-col max-md:flex-1 max-md:justify-center max-md:pt-0" style={{ paddingTop: h(46) }}>
             <div className="flex flex-col items-center">
               {/* the pale blue glow behind the bowl is baked into the sprite */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
