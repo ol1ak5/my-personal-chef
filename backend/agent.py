@@ -31,6 +31,7 @@ def image_message_from_bytes(text: str, image_bytes: bytes, mime_type: str) -> H
     ])
 
 import os
+import re
 import sqlite3
 from pathlib import Path
 
@@ -68,14 +69,18 @@ def build_checkpointer():
                 prepare_threshold=0,
                 row_factory=psycopg.rows.dict_row,
             )
-        except psycopg.OperationalError as exc:
+        except (psycopg.OperationalError, psycopg.ProgrammingError) as exc:
             # Failing here is deliberate -- a server that starts without its
             # database would lose every conversation silently. But psycopg's own
             # message arrives under fifty lines of traceback, and the causes are
             # few and specific enough to name.
+            # psycopg quotes the connection string back on a parse error, so the
+            # password would otherwise be printed into the host's logs in full.
+            detail = re.sub(r"://[^@\s]*@", "://<credentials>@", str(exc))
+            detail = re.sub(r":[^:@/\s]+@", ":<password>@", detail)
             raise RuntimeError(
                 "Could not connect to the database.\n"
-                f"  {exc}\n"
+                f"  {detail}\n"
                 "  Read the server's own words above before changing anything -- "
                 "they say which half is wrong:\n"
                 "  - 'password authentication failed for user postgres' means the "
@@ -85,6 +90,8 @@ def build_checkpointer():
                 "about the username.\n"
                 "  - 'no tenant identifier provided' is the username: it has to be "
                 "postgres.<project-ref>, with the dot.\n"
+                "  - 'missing \"=\"' means the string is not a URL at all: it needs "
+                "the postgresql:// scheme in front.\n"
                 "  On a password: check [YOUR-PASSWORD] was replaced, square "
                 "brackets and all, and that any @ / : # or ? in it is "
                 "percent-encoded -- unescaped, they are read as part of the address."
