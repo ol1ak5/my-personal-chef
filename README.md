@@ -1,6 +1,6 @@
 # 🥘 Personal Chef
 
-Personal Chef is a cooking AI agent that tells you what to cook based on the food you already have. Describe your leftovers or photograph them, and it finds recipes that fit. Built with Google Gemini, LangGraph, FastAPI and Next.js.
+An AI cooking agent that turns the ingredients you already have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting.
 
 ### 🔗 **[Try it live](https://my-personal-chef.vercel.app)**
 
@@ -8,18 +8,18 @@ Personal Chef is a cooking AI agent that tells you what to cook based on the foo
 
 ## 🎯 The Problem
 
-Cooking rarely starts with a recipe. It starts with half an onion, three eggs and a bunch of parsley going soft. Searching for "recipes with eggs and parsley" returns blog posts that want eleven ingredients, nine of which you do not have, wrapped in two thousand words about someone's holiday in Provence.
+Cooking rarely starts with a recipe. You have leftovers, a few vegetables, and no clear idea what to make. Traditional recipe search often gives you dishes that require ingredients you don’t have — turning a simple dinner into another trip to the store.
 
 ## 💡 The Solution
 
-Tell it what is left, in plain language or as a photo of the shelf. It works out what you actually have, searches the web when the question needs it, and suggests what you can cook tonight. Ask for the method and it walks you through it.
+Personal Chef works backwards. Describe what you have or upload a photo of your ingredients. The agent understands your kitchen, finds recipes that fit, adapts to what’s available, and guides you through cooking step by step.
 
 ![A conversation](docs/screenshot-conversation.png)
 
-- **Text or a photo** — list the ingredients, or photograph them and let the model read the shelf itself
-- **Real recipes** — it searches the web rather than inventing plausible ones
-- **Remembers** — history lives in Postgres, so a reload or a redeploy does not lose the thread
-- **Starts over** — one button abandons the conversation and begins a clean one
+- **Text or a photo** - list the ingredients, or photograph them and let the model read the shelf itself
+- **Real recipes** - it searches the web rather than inventing plausible ones
+- **Remembers** - history lives in Postgres, so a reload or a redeploy does not lose the thread
+- **Starts over** - one button abandons the conversation and begins a clean one
 
 ## 🧠 How It Works
 
@@ -37,23 +37,24 @@ flowchart TD
     Page -->|"GET /history/:thread_id on reload"| API
 ```
 
-**An agent, not a chatbot.** Nothing in the code decides to search. Gemini is handed a tool and chooses each turn whether to reach for it, so "hello" is answered directly and "what can I make with eggs and spinach" sends it looking.
-
-**A photo stays a photo.** It travels as an image block beside the text in the same message, so the model looks at the shelf rather than at someone's description of it.
-
-**The conversation outlives the server.** Every turn is written to Postgres under a thread id the browser keeps, and replaying a thread filters the tool calls back out — those are the agent's working state, not something you said.
-
 ## 🧩 Built With
 
-**Google Gemini** · **LangChain** · **LangGraph** · **Tavily** · **FastAPI** · **Postgres** · **Next.js** · **TypeScript** · **Tailwind CSS**
+| | What it does here |
+|---|---|
+| **Google Gemini** | Reads the ingredients, whether typed or photographed, decides when a question needs the web, and writes the recipes |
+| **LangChain** | Wraps the model and defines the search tool it can reach for |
+| **LangGraph** | Runs the agent loop and checkpoints the conversation after every turn |
+| **Tavily** | Web search, called by the model itself when a question needs real recipes |
+| **FastAPI** | Two endpoints: send a message, replay a thread |
+| **Postgres** | Conversation history, keyed by a thread id the browser keeps |
+| **Next.js** · **TypeScript** | The interface, one page |
+| **Tailwind CSS** | Styling, on design tokens measured off the reference illustration |
 
-Frontend on Vercel, backend on Render, database on Supabase.
-
-## ⚠️ Honest Limits
-
-- **The free Gemini tier is a daily budget.** A heavy day of use exhausts it, and the app answers with an error until it resets.
-- **The backend sleeps.** On a free instance the first request after a quiet spell waits about a minute while it wakes.
-- **The illustrations set the layout.** The page is drawn against a fixed reference design, so it adapts by scaling rather than by rearranging.
+| | Runs on |
+|---|---|
+| **Vercel** | Frontend |
+| **Render** | Backend |
+| **Supabase** | Postgres database |
 
 ## 📄 License
 
