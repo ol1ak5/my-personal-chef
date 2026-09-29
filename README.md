@@ -1,6 +1,10 @@
 # 🥘 Personal Chef
 
-A cooking agent for the food you already have. Tell it what is left in the fridge, or show it a photo, and it comes back with recipes built from those ingredients.
+Personal Chef is a cooking AI agent that tells you what to cook based on the food you already have. Describe your leftovers or photograph them, and it finds recipes that fit. Built with Google Gemini, LangGraph, FastAPI and Next.js.
+
+### 🔗 **[Try it live](https://my-personal-chef.vercel.app)**
+
+![The opening screen](docs/screenshot-start.png)
 
 ## 🎯 The Problem
 
@@ -8,7 +12,14 @@ Cooking rarely starts with a recipe. It starts with half an onion, three eggs an
 
 ## 💡 The Solution
 
-Describe the leftovers in plain language, or take a photo of the shelf. The agent reads what is actually there, decides for itself when it needs to search the web, and suggests what you can cook tonight. Ask for the method and it walks you through it. The conversation is remembered, so you can come back later and pick up where you left off.
+Tell it what is left, in plain language or as a photo of the shelf. It works out what you actually have, searches the web when the question needs it, and suggests what you can cook tonight. Ask for the method and it walks you through it.
+
+![A conversation](docs/screenshot-conversation.png)
+
+- **Text or a photo** — list the ingredients, or photograph them and let the model read the shelf itself
+- **Real recipes** — it searches the web rather than inventing plausible ones
+- **Remembers** — history lives in Postgres, so a reload or a redeploy does not lose the thread
+- **Starts over** — one button abandons the conversation and begins a clean one
 
 ## 🧠 How It Works
 
@@ -20,81 +31,29 @@ flowchart TD
     Agent <--> Gemini["Gemini"]
     Gemini -.->|"when it needs real recipes"| Tavily["Tavily web search"]
     Tavily -.-> Gemini
-    Agent <-->|"every turn"| DB[("SQLite checkpoints")]
+    Agent <-->|"every turn"| DB[("Postgres checkpoints")]
     Agent --> API
     API -->|"recipe suggestions"| Page
     Page -->|"GET /history/:thread_id on reload"| API
 ```
 
-**Step by step:**
+**An agent, not a chatbot.** Nothing in the code decides to search. Gemini is handed a tool and chooses each turn whether to reach for it, so "hello" is answered directly and "what can I make with eggs and spinach" sends it looking.
 
-1. **You send a message.** The page posts your text, any photo, and a thread id to `POST /chat`. The thread id is kept in `localStorage`, so it survives a reload.
-2. **The photo travels as an image, not a description.** The backend encodes it as a base64 image block in the same message as your text, so the model looks at your shelf itself.
-3. **The agent decides whether to search.** Nothing forces a web search — Gemini calls the Tavily tool only when the question needs real recipes, and answers directly when it does not.
-4. **Search results come back to the model,** which reads them and writes the suggestion.
-5. **The reply reaches the page** and appears in the conversation.
-6. **Every turn is written to SQLite,** keyed by thread id. Restarting the backend does not lose the conversation.
-7. **On reload the page calls `GET /history/{thread_id}`** and replays what was said. Tool calls and their results are filtered out: they are the agent's working state, not part of the conversation.
+**A photo stays a photo.** It travels as an image block beside the text in the same message, so the model looks at the shelf rather than at someone's description of it.
 
-## 🚀 Quick Start
-
-Two processes, two terminals. Both API keys are required — the agent cannot answer without Gemini, and cannot find recipes without Tavily.
-
-```bash
-# Backend - FastAPI on port 8000
-cd backend
-cp .env.example .env    # add GOOGLE_API_KEY and TAVILY_API_KEY
-uv sync
-uv run uvicorn api:app --reload --port 8000
-```
-
-```bash
-# Frontend - Next.js on port 3000
-cd frontend
-npm install
-npm run dev
-```
-
-Then open http://localhost:3000.
-
-| Key | Where to get it |
-|---|---|
-| `GOOGLE_API_KEY` | [Google AI Studio](https://aistudio.google.com/apikey) |
-| `TAVILY_API_KEY` | [Tavily](https://app.tavily.com) |
-
-Both live in `backend/.env`, which is gitignored. So is `backend/checkpoints.sqlite`, which holds the conversations.
-
-## 🌍 Deployment
-
-The two halves deploy separately: a static Next.js frontend, and a Python service that needs to keep a file on disk.
-
-| | |
-|---|---|
-| **Frontend** | Any static host. Set the backend's public address as an environment variable instead of the hardcoded `http://localhost:8000`. |
-| **Backend** | Any host that runs Python. Point `DATABASE_URL` at a Postgres database — free tiers are plenty, since checkpoints are kilobytes — and the history no longer depends on the host keeping a filesystem between deploys. |
-
-Everything that differs between a laptop and a server is an environment variable, and each falls back to the local default when unset:
-
-| Variable | Side | Effect |
-|---|---|---|
-| `DATABASE_URL` | backend | Postgres connection string. Unset, conversations go to `checkpoints.sqlite` instead. |
-| `ALLOWED_ORIGINS` | backend | Comma-separated origins allowed to call the API. The deployed frontend must be listed or the browser blocks every request. |
-| `NEXT_PUBLIC_API_URL` | frontend | Where the backend lives. Next.js bakes this in at build time, so changing it needs a rebuild, not a restart. |
-| `GOOGLE_API_KEY`, `TAVILY_API_KEY` | backend | Move from `.env` into the host's own settings. The `.env` file is never deployed. |
-
-## 📁 Project Structure
-
-| Path | Contents |
-|---|---|
-| `backend/agent.py` | the LangGraph agent, its tools and the SQLite checkpointer |
-| `backend/api.py` | FastAPI: `POST /chat` and `GET /history/{thread_id}` |
-| `frontend/app/page.tsx` | the whole interface |
-| `frontend/app/globals.css` | design tokens and the scaling units |
-| `frontend/public/food/` | the illustrations |
+**The conversation outlives the server.** Every turn is written to Postgres under a thread id the browser keeps, and replaying a thread filters the tool calls back out — those are the agent's working state, not something you said.
 
 ## 🧩 Built With
 
-**Google Gemini** · **LangChain** · **LangGraph** · **FastAPI** · **Tavily** · **SQLite** · **Next.js** · **TypeScript** · **Tailwind CSS**
+**Google Gemini** · **LangChain** · **LangGraph** · **Tavily** · **FastAPI** · **Postgres** · **Next.js** · **TypeScript** · **Tailwind CSS**
+
+Frontend on Vercel, backend on Render, database on Supabase.
+
+## ⚠️ Honest Limits
+
+- **The free Gemini tier is a daily budget.** A heavy day of use exhausts it, and the app answers with an error until it resets.
+- **The backend sleeps.** On a free instance the first request after a quiet spell waits about a minute while it wakes.
+- **The illustrations set the layout.** The page is drawn against a fixed reference design, so it adapts by scaling rather than by rearranging.
 
 ## 📄 License
 
