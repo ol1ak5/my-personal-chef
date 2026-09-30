@@ -1,4 +1,4 @@
-# 🥞 Personal Chef
+# 🧑‍🍳 Personal Chef
 
 An AI cooking agent that turns the ingredients you have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting.
 
@@ -19,9 +19,13 @@ Personal Chef works backwards. You describe what you have or upload a photo of y
 ## 💬 How a conversation goes
 
 🧑 **You:** Say what is left. Type it or photograph the shelf and let the agent read the ingredients itself. 
+
 🧑‍🍳 **Chef:** Goes looking, calls a web search on its own, and comes back with a few things you could make, each with the method in a line.
+
 🧑 **You:** Pick one and keep talking. Full steps, an ingredient you forgot, something you do not eat. The suggestions move with you.
+
 🧑‍🍳 **Chef:** Holds the thread. Close the tab mid-recipe. Come back tomorrow and everything you said is still there.
+
 🧑 **You:** Start over whenever. One button and the conversation is clean.
 
 ## 🧠 How It Works
