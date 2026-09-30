@@ -1,4 +1,4 @@
-# 🥘 Personal Chef
+# 🥞 Personal Chef
 
 An AI cooking agent that turns the ingredients you have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting.
 
@@ -18,11 +18,11 @@ Personal Chef works backwards. You describe what you have or upload a photo of y
 
 ## 💬 How a conversation goes
 
-1. You say what is left. Type it or photograph the shelf and let the agent read the ingredients itself. 
-2. The agent goes looking. It calls a web search on its own, and comes back with a few things you could make, each with the method in a line.
-3. You pick one and keep talking. Ask for the full steps on one of them. Mention some ingredients you forgot about. Say what you do not eat. The suggestions move with you.
-4. The agent holds the thread. Close the tab mid-recipe. Come back tomorrow and everything you said is still there.
-5. If you want to start over, one button abandons the conversation and begins a clean one.
+🧑 **You:** Say what is left. Type it or photograph the shelf and let the agent read the ingredients itself. 
+🧑‍🍳 **Chef:** Goes looking, calls a web search on its own, and comes back with a few things you could make, each with the method in a line.
+🧑 **You:** Pick one and keep talking. Full steps, an ingredient you forgot, something you do not eat. The suggestions move with you.
+🧑‍🍳 **Chef:** Holds the thread. Close the tab mid-recipe. Come back tomorrow and everything you said is still there.
+🧑 **You:** Start over whenever. One button and the conversation is clean.
 
 ## 🧠 How It Works
 
@@ -47,14 +47,14 @@ flowchart TD
 | **Google Gemini** | Reads the ingredients, decides when a question needs the web, and comes back with the recipes |
 | **LangChain** | Wraps the model and defines the search tool it can reach for |
 | **LangGraph** | Runs the agent loop and checkpoints the conversation after every turn |
-| **Tavily** | Finds real recipes on the web |
-| **FastAPI** | Takes the requests: send a message, replay a thread |
-| **Postgres** | Where the conversations live |
-| **Next.js** | The interface |
-| **Tailwind CSS** | Its styling |
-| **Vercel** | Hosts the page |
+| **Tavily** | Searches the web for real recipes |
+| **FastAPI** | Serves the two endpoints the page calls: send a message, and replay a thread on reload |
+| **Postgres** | Stores every conversation under its own thread id, so nothing is lost on a restart |
+| **Next.js** | Renders the whole interface |
+| **Tailwind CSS** | Styles the interface |
+| **Vercel** | Hosts the frontend |
 | **Render** | Hosts the backend |
-| **Supabase** | Hosts the database |
+| **Supabase** | Hosts the Postgres database the conversations are checkpointed into |
 
 ## 📄 License
 
