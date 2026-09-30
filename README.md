@@ -1,6 +1,6 @@
 # 🥘 Personal Chef
 
-An AI cooking agent that turns the ingredients you already have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting.
+An AI cooking agent that turns the ingredients you have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting.
 
 ### 🔗 **[Try it live](https://my-personal-chef.vercel.app)**
 
@@ -8,18 +8,21 @@ An AI cooking agent that turns the ingredients you already have into meals you c
 
 ## 🎯 The Problem
 
-Cooking rarely starts with a recipe. You have leftovers, a few vegetables, and no clear idea what to make. Traditional recipe search often gives you dishes that require ingredients you don’t have — turning a simple dinner into another trip to the store.
+Cooking rarely starts with a recipe. You have leftovers, a few vegetables, and no clear idea what to make. Traditional recipe search often gives you dishes that require ingredients you don’t have, turning a simple dinner into another trip to the store.
 
 ## 💡 The Solution
 
-Personal Chef works backwards. Describe what you have or upload a photo of your ingredients. The agent understands your kitchen, finds recipes that fit, adapts to what’s available, and guides you through cooking step by step.
+Personal Chef works backwards. You describe what you have or upload a photo of your ingredients, and the agent finds recipes that fit, adapts to what’s available, and guides you through cooking step by step.
 
 ![A conversation](docs/screenshot-conversation.png)
 
-- **Text or a photo** - list the ingredients, or photograph them and let the model read the shelf itself
-- **Real recipes** - it searches the web rather than inventing plausible ones
-- **Remembers** - history lives in Postgres, so a reload or a redeploy does not lose the thread
-- **Starts over** - one button abandons the conversation and begins a clean one
+## 💬 How a conversation goes
+
+1. You say what is left. Type it or photograph the shelf and let the agent read the ingredients itself. 
+2. The agent goes looking. It calls a web search on its own, and comes back with a few things you could make, each with the method in a line.
+3. You pick one and keep talking. Ask for the full steps on one of them. Mention some ingredients you forgot about. Say what you do not eat. The suggestions move with you.
+4. The agent holds the thread. Close the tab mid-recipe. Come back tomorrow and everything you said is still there.
+5. If you want to start over, one button abandons the conversation and begins a clean one.
 
 ## 🧠 How It Works
 
@@ -39,22 +42,16 @@ flowchart TD
 
 ## 🧩 Built With
 
-| | What it does here |
+| Stack | Used for |
 |---|---|
-| **Google Gemini** | Reads the ingredients, whether typed or photographed, decides when a question needs the web, and writes the recipes |
-| **LangChain** | Wraps the model and defines the search tool it can reach for |
-| **LangGraph** | Runs the agent loop and checkpoints the conversation after every turn |
-| **Tavily** | Web search, called by the model itself when a question needs real recipes |
-| **FastAPI** | Two endpoints: send a message, replay a thread |
-| **Postgres** | Conversation history, keyed by a thread id the browser keeps |
-| **Next.js** · **TypeScript** | The interface, one page |
-| **Tailwind CSS** | Styling, on design tokens measured off the reference illustration |
-
-| | Runs on |
-|---|---|
-| **Vercel** | Frontend |
-| **Render** | Backend |
-| **Supabase** | Postgres database |
+| **Google Gemini** | **Thinks.** Reads the ingredients, typed or photographed, decides whether the question needs a search, and writes the recipes. |
+| **Tavily** | **Searches.** Finds real recipes on the web, so nothing is made up. |
+| **LangGraph** | **Keeps the loop going** — think, act, think again — and remembers, saving the conversation after every turn. |
+| **LangChain** | **Connects** the model to its tools, and carries text and photos in one message. |
+| **FastAPI** | **Takes the requests.** Two of them: send a message, replay a thread. |
+| **Postgres** | **Stores.** Every conversation, under its own thread. |
+| **Next.js** · **Tailwind CSS** | **Shows it all.** One page, styled off the reference illustration. |
+| **Vercel** · **Render** · **Supabase** | **Where it lives** — the page, the backend, the database. |
 
 ## 📄 License
 
