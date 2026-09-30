@@ -44,14 +44,17 @@ flowchart TD
 
 | Stack | Used for |
 |---|---|
-| **Google Gemini** | **Thinks.** Reads the ingredients, typed or photographed, decides whether the question needs a search, and writes the recipes. |
-| **Tavily** | **Searches.** Finds real recipes on the web, so nothing is made up. |
-| **LangGraph** | **Keeps the loop going** — think, act, think again — and remembers, saving the conversation after every turn. |
-| **LangChain** | **Connects** the model to its tools, and carries text and photos in one message. |
-| **FastAPI** | **Takes the requests.** Two of them: send a message, replay a thread. |
-| **Postgres** | **Stores.** Every conversation, under its own thread. |
-| **Next.js** · **Tailwind CSS** | **Shows it all.** One page, styled off the reference illustration. |
-| **Vercel** · **Render** · **Supabase** | **Where it lives** — the page, the backend, the database. |
+| **Google Gemini** | Reads the ingredients, decides when a question needs the web, and comes back with the recipes |
+| **LangChain** | Wraps the model and defines the search tool it can reach for |
+| **LangGraph** | Runs the agent loop and checkpoints the conversation after every turn |
+| **Tavily** | Finds real recipes on the web |
+| **FastAPI** | Takes the requests: send a message, replay a thread |
+| **Postgres** | Where the conversations live |
+| **Next.js** | The interface |
+| **Tailwind CSS** | Its styling |
+| **Vercel** | Hosts the page |
+| **Render** | Hosts the backend |
+| **Supabase** | Hosts the database |
 
 ## 📄 License
 
