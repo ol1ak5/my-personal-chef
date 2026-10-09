@@ -126,6 +126,10 @@ export default function Home() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  // The request still waiting on the chef, so starting a new conversation can
+  // cancel it instead of leaving "Cooking..." stuck and its reply landing in
+  // the fresh, empty chat.
+  const pendingRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -153,6 +157,9 @@ export default function Home() {
   // Abandons the thread rather than deleting it: the old conversation stays in
   // the database, it simply stops being the one this browser asks for.
   function startNewConversation() {
+    pendingRef.current?.abort();
+    pendingRef.current = null;
+    setLoading(false);
     const fresh = crypto.randomUUID();
     localStorage.setItem("chef-thread-id", fresh);
     setThreadId(fresh);
@@ -181,6 +188,9 @@ export default function Home() {
       fileInputRef.current.value = "";
     }
 
+    const controller = new AbortController();
+    pendingRef.current = controller;
+
     try {
       const formData = new FormData();
       formData.append("message", outgoingInput);
@@ -192,6 +202,7 @@ export default function Home() {
       const res = await fetch(`${API_URL}/chat`, {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
 
       if (!res.ok) {
@@ -201,10 +212,14 @@ export default function Home() {
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "chef", content: data.reply }]);
     } catch (err) {
+      if (controller.signal.aborted) return; // the user moved on, nothing to report
       console.error(err);
       setError("Couldn't reach the chef. Is the backend running?");
     } finally {
-      setLoading(false);
+      if (pendingRef.current === controller) {
+        pendingRef.current = null;
+        setLoading(false);
+      }
     }
   }
 
