@@ -423,14 +423,18 @@ export default function Home() {
                   className="hidden"
                   id="photo-upload"
                 />
+                {/* On a phone the label, the X and "Cooking..." do not fit in one
+                    row, and the send button ends up covering the X, so the
+                    button shrinks to a round icon there, like the X beside it. */}
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="composer-btn composer-btn--soft flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0"
-                  style={{ gap: uc(10), height: uc(58), paddingInline: uc(24), fontSize: uc(20), background: "var(--color-leaf-bg)" }}
+                  aria-label="Add photo"
+                  className="composer-btn composer-btn--soft flex items-center justify-center rounded-full font-medium text-[var(--color-ink)] shrink-0 px-[calc(24*var(--uc))] max-sm:px-0 max-sm:w-[calc(58*var(--uc))]"
+                  style={{ gap: uc(10), height: uc(58), fontSize: uc(20), background: "var(--color-leaf-bg)" }}
                 >
                   <CameraIcon style={{ width: uc(22), height: uc(22) }} />
-                  Add photo
+                  <span className="max-sm:hidden">Add photo</span>
                 </button>
 
                 {/* Only offered once there is something to clear, so it cannot be
