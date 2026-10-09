@@ -295,16 +295,16 @@ export default function Home() {
                 <ChefHatIcon style={{ width: h(44), height: h(44) }} />
               </span>
               <div className="relative">
+                {/* Sized with the hero on wider screens, but on a phone the hero
+                    scale leaves it noticeably smaller than the chat that follows,
+                    so there it takes the chef bubble's text size and padding. */}
                 <div
-                  className="flex items-center text-[var(--color-ink)] font-medium"
-                  style={{
-                    borderRadius: h(28),
-                    paddingInline: h(30),
-                    height: h(85),
-                    fontSize: h(23.5),
-                    background: "var(--color-leaf-bg)",
-                    boxShadow: softShadowSm,
-                  }}
+                  className={[
+                    "flex items-center text-[var(--color-ink)] font-medium",
+                    "rounded-[calc(28*0.85*var(--u))] px-[calc(30*0.85*var(--u))] h-[calc(85*0.85*var(--u))] text-[length:calc(23.5*0.85*var(--u))]",
+                    "max-md:h-auto max-md:rounded-[calc(26*var(--uc))] max-md:px-[calc(28*var(--uc))] max-md:py-[calc(18*var(--uc))] max-md:text-[length:calc(20*var(--uc))]",
+                  ].join(" ")}
+                  style={{ background: "var(--color-leaf-bg)", boxShadow: softShadowSm }}
                 >
                   Hi! What are we cooking today?
                 </div>
