@@ -4,8 +4,6 @@ An AI cooking agent that turns the ingredients you have into meals you can actua
 
 ![The opening screen](docs/screenshot-start.png)
 
-![A conversation](docs/screenshot-conversation.png)
-
 ## How It Works
 
 ```mermaid
