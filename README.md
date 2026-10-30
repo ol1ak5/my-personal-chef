@@ -1,6 +1,8 @@
 # Personal Chef
 
-An AI cooking agent that turns the ingredients you have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting. You describe what you have or upload a photo of your ingredients, and the agent finds recipes that fit, adapts to what’s available, and guides you through cooking step by step. **[Try it live here](https://my-ai-personal-chef.vercel.app)**
+An AI cooking agent that turns the ingredients you have into meals you can actually make, without the extra shopping, guesswork, or endless recipe hunting.
+
+You describe what you have or upload a photo of your ingredients, and the agent finds recipes that fit, adapts to what’s available, and guides you through cooking step by step. **[Try it live](https://my-ai-personal-chef.vercel.app)**
 
 ![The opening screen](docs/screenshot-start.png)
 
@@ -43,10 +45,10 @@ Leave `DATABASE_URL` empty and conversations are saved to `backend/checkpoints.s
 
 ## API Keys
 
-| Key | Powers | Free tier |
-|---|---|---|
-| `GOOGLE_API_KEY` | Gemini: reading ingredients and writing the recipes ([get one](https://aistudio.google.com/apikey)) | Yes |
-| `TAVILY_API_KEY` | Web search for real recipes ([get one](https://app.tavily.com)) | About 1,000 searches a month |
+| Key | Powers |
+|---|---|
+| `GOOGLE_API_KEY` | Gemini: reading ingredients and writing the recipes ([get one](https://aistudio.google.com/apikey)) |
+| `TAVILY_API_KEY` | Web search for real recipes ([get one](https://app.tavily.com)) |
 
 ## 📄 License
 
