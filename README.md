@@ -1,34 +1,12 @@
-# 🧑‍🍳 Personal Chef
+# Personal Chef
 
-An AI cooking agent that turns the ingredients you have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting.
-
-### 🔗 **[Try it live](https://my-ai-personal-chef.vercel.app)**
+An AI cooking agent that turns the ingredients you have into meals you can actually make. Without the extra shopping, guesswork, or endless recipe hunting. You describe what you have or upload a photo of your ingredients, and the agent finds recipes that fit, adapts to what’s available, and guides you through cooking step by step. **[Try it live here](https://my-ai-personal-chef.vercel.app)**
 
 ![The opening screen](docs/screenshot-start.png)
 
-## 🎯 The Problem
-
-Cooking rarely starts with a recipe. You have leftovers, a few vegetables, and no clear idea what to make. Traditional recipe search often gives you dishes that require ingredients you don’t have, turning a simple dinner into another trip to the store.
-
-## 💡 The Solution
-
-Personal Chef works backwards. You describe what you have or upload a photo of your ingredients, and the agent finds recipes that fit, adapts to what’s available, and guides you through cooking step by step.
-
 ![A conversation](docs/screenshot-conversation.png)
 
-## 💬 How a conversation goes
-
-🧑 **You:** Say what is left. Type it or photograph the shelf and let the agent read the ingredients itself. 
-
-🧑‍🍳 **Chef:** Goes looking, calls a web search on its own, and comes back with a few things you could make, each with the method in a line.
-
-🧑 **You:** Pick one and keep talking. Full steps, an ingredient you forgot, something you do not eat. The suggestions move with you.
-
-🧑‍🍳 **Chef:** Holds the thread. Close the tab mid-recipe. Come back tomorrow and everything you said is still there.
-
-🧑 **You:** Start over whenever. One button and the conversation is clean.
-
-## 🧠 How It Works
+## How It Works
 
 ```mermaid
 flowchart TD
@@ -44,21 +22,33 @@ flowchart TD
     Page -->|"GET /history/:thread_id on reload"| API
 ```
 
-## 🧩 Built With
+## Quick Start
 
-| Stack | Used for |
-|---|---|
-| **Google Gemini** | Reads the ingredients, decides when a question needs the web, and comes back with the recipes |
-| **LangChain** | Wraps the model and defines the search tool it can reach for |
-| **LangGraph** | Runs the agent loop and checkpoints the conversation after every turn |
-| **Tavily** | Searches the web for real recipes |
-| **FastAPI** | Serves the two endpoints the page calls: send a message, and replay a thread on reload |
-| **Postgres** | Stores every conversation under its own thread id, so nothing is lost on a restart |
-| **Next.js** | Renders the whole interface |
-| **Tailwind CSS** | Styles the interface |
-| **Vercel** | Hosts the frontend |
-| **Render** | Hosts the backend |
-| **Supabase** | Hosts the Postgres database the conversations are checkpointed into |
+You need Python 3.13 with [uv](https://docs.astral.sh/uv/) and Node.js.
+
+```bash
+cd backend
+uv sync
+cp .env.example .env              # fill in GOOGLE_API_KEY and TAVILY_API_KEY
+uv run uvicorn api:app --reload   # http://localhost:8000
+```
+
+In a second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev                       # http://localhost:3000
+```
+
+Leave `DATABASE_URL` empty and conversations are saved to `backend/checkpoints.sqlite` instead of Postgres. The frontend calls `http://localhost:8000` unless `NEXT_PUBLIC_API_URL` says otherwise.
+
+## API Keys
+
+| Key | Powers | Free tier |
+|---|---|---|
+| `GOOGLE_API_KEY` | Gemini: reading ingredients and writing the recipes ([get one](https://aistudio.google.com/apikey)) | Yes |
+| `TAVILY_API_KEY` | Web search for real recipes ([get one](https://app.tavily.com)) | About 1,000 searches a month |
 
 ## 📄 License
 
