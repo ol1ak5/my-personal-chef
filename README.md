@@ -2,7 +2,7 @@
 
 An AI cooking agent that turns the ingredients you have into meals you can actually make. Tell it what you have in your kitchen, or show it a photo, and it will suggest a few dishes and guide you through the one you pick.
 
-- Live demo: (https://my-ai-personal-chef.vercel.app)**
+- **Live demo**: (https://my-ai-personal-chef.vercel.app)
 
 ![The opening screen](docs/screenshot-start.png)
 
