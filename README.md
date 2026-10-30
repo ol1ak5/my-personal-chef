@@ -1,8 +1,6 @@
 # Personal Chef
 
-An AI cooking agent that turns the ingredients you have into meals you can actually make, without the extra shopping, guesswork, or endless recipe hunting.
-
-You describe what you have or upload a photo of your ingredients, and the agent finds recipes that fit, adapts to what’s available, and guides you through cooking step by step. **[Try it live](https://my-ai-personal-chef.vercel.app)**
+An AI cooking agent that turns the ingredients you have into meals you can actually make. Tell it what's in your kitchen, or show it a photo, and get a recipe you can cook right now. **[Try it live](https://my-ai-personal-chef.vercel.app)**
 
 ![The opening screen](docs/screenshot-start.png)
 
