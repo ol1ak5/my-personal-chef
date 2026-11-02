@@ -10,16 +10,12 @@ An AI cooking agent that turns the ingredients you have into meals you can actua
 
 ```mermaid
 flowchart LR
-    You(["You: ingredients or a photo"]) --> Page["Next.js page"]
-    Page -->|"POST /chat"| API["FastAPI"]
-    API --> Agent["LangGraph agent"]
+    You(["You:<br>ingredients<br>or a photo"]) --> Page["Next.js<br>page"]
+    Page <-->|"POST /chat<br>GET /history"| API["FastAPI"]
+    API <--> Agent["LangGraph<br>agent"]
     Agent <--> Gemini["Gemini"]
-    Gemini -.->|"when it needs real recipes"| Tavily["Tavily web search"]
-    Tavily -.-> Gemini
-    Agent <-->|"every turn"| DB[("Postgres checkpoints")]
-    Agent --> API
-    API -->|"recipe suggestions"| Page
-    Page -->|"GET /history/:thread_id on reload"| API
+    Agent <-.->|"when it needs<br>real recipes"| Tavily["Tavily<br>web search"]
+    Agent <-->|"every turn"| DB[("Postgres<br>checkpoints")]
 ```
 
 ## Quick Start
