@@ -9,7 +9,7 @@ An AI cooking agent that turns the ingredients you have into meals you can actua
 ## How It Works
 
 ```mermaid
-flowchart TD
+flowchart LR
     You(["You: ingredients or a photo"]) --> Page["Next.js page"]
     Page -->|"POST /chat"| API["FastAPI"]
     API --> Agent["LangGraph agent"]
