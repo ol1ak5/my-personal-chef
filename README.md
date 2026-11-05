@@ -2,7 +2,7 @@
 
 An AI cooking agent that turns the ingredients you have into meals you can actually make. Tell it what you have in your kitchen, or show it a photo, and it will suggest a few dishes and guide you through the one you pick.
 
-- **Live demo**: (https://my-ai-personal-chef.vercel.app)
+Try it live [here](https://my-ai-personal-chef.vercel.app).
 
 ![The opening screen](docs/screenshot-start.png)
 
@@ -46,7 +46,7 @@ Leave `DATABASE_URL` empty and conversations are saved to `backend/checkpoints.s
 | `GOOGLE_API_KEY` | Gemini: reading ingredients and writing the recipes ([get one](https://aistudio.google.com/apikey)) |
 | `TAVILY_API_KEY` | Web search for real recipes ([get one](https://app.tavily.com)) |
 
-## 📄 License
+## License
 
 Copyright © 2026 Olga Aksenova.
 
