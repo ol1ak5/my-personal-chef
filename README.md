@@ -39,7 +39,7 @@ npm run dev                       # http://localhost:3000
 
 Leave `DATABASE_URL` empty and conversations are saved to `backend/checkpoints.sqlite` instead of Postgres. The frontend calls `http://localhost:8000` unless `NEXT_PUBLIC_API_URL` says otherwise.
 
-## API Keys
+### Configure your API keys
 
 | Key | Powers |
 |---|---|
